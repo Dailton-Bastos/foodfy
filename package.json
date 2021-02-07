@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "nodemon src/server.js",
     "lint": "eslint --fix --ext .js src/",
     "precommit": "yarn lint",
     "prepush": "yarn lint",
@@ -26,6 +27,7 @@
   },
   "dependencies": {
     "commitizen": "^4.2.3",
+    "express": "^4.17.1",
     "global": "^4.4.0"
   }
 }
