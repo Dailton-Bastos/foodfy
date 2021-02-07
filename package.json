@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint --fix --ext .js src/",
     "precommit": "yarn lint",
-    "prepush": "yarn lint"
+    "prepush": "yarn lint",
+    "commit": "yarn cz"
   },
   "devDependencies": {
     "cz-conventional-changelog": "3.3.0",
