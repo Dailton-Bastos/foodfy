@@ -8,8 +8,14 @@ const routes = new Router();
 import UserController from '../app/controllers/UserController';
 import UserValidator from '../app/validators/user';
 
+import authMiddlewares from '../app/middlewares/auth';
+
+routes.post('/', new UserValidator().create, new UserController().create);
+
+routes.use(authMiddlewares);
+
 routes
-  .post('/', new UserValidator().create, new UserController().create)
+  .put('/', new UserController().update)
   .post('/avatar', upload.single('avatar'), (req, res) =>
     res.json({ ok: true })
   );
