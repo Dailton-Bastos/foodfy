@@ -3,12 +3,11 @@ import { Router } from 'express';
 const routes = new Router();
 
 import SessionController from '../app/controllers/SessionController';
-import SessionValidator from '../app/validators/session';
+const session = new SessionController();
 
-routes.post(
-  '/sessions',
-  new SessionValidator().create,
-  new SessionController().create
-);
+import SessionValidator from '../app/validators/session';
+const validator = new SessionValidator();
+
+routes.post('/sessions', validator.create, session.create);
 
 export default routes;

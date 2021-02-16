@@ -6,28 +6,20 @@ const upload = multer(multerConfig);
 const routes = new Router();
 
 import UserController from '../app/controllers/UserController';
+const user = new UserController();
+
 import UserValidator from '../app/validators/user';
+const validator = new UserValidator();
 
 import authMiddlewares from '../app/middlewares/auth';
 import isAdmin from '../app/middlewares/isAdmin';
 
-routes.use(authMiddlewares);
-
-routes.post(
-  '/',
-  isAdmin,
-  new UserValidator().create,
-  new UserController().create
-);
+routes.use(authMiddlewares, isAdmin);
 
 routes
-  .put('/:id', isAdmin, new UserValidator().update, new UserController().update)
-  .delete(
-    '/:id',
-    isAdmin,
-    new UserValidator().delete,
-    new UserController().delete
-  )
+  .post('/', validator.create, user.create)
+  .put('/:id', validator.update, user.update)
+  .delete('/:id', validator.delete, user.delete)
   .post('/avatar', upload.single('avatar'), (req, res) =>
     res.json({ ok: true })
   );
