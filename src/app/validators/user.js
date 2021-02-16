@@ -9,6 +9,8 @@ class UserValidate {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string().email().required(),
+      admin: Yup.boolean(),
+      active: Yup.boolean(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -32,7 +34,6 @@ class UserValidate {
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
-      avatar: Yup.boolean(),
       admin: Yup.boolean(),
       active: Yup.boolean(),
     });

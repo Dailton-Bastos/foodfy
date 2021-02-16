@@ -4,16 +4,12 @@ import ModelUser from '../models/User';
 
 class UserController {
   async create(req, res) {
-    const { id, name, email, admin } = req.body;
     const password = randomBytes(5).toString('hex');
 
     console.log('User password', password);
 
-    await ModelUser.create({
-      id,
-      name,
-      email,
-      admin,
+    const { id, name, email, active } = await ModelUser.create({
+      ...req.body,
       password,
     });
 
@@ -21,6 +17,7 @@ class UserController {
       id,
       name,
       email,
+      active,
     });
   }
 
