@@ -39,6 +39,14 @@ class UserController {
       active,
     });
   }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    await ModelUser.destroy({ where: { id } });
+
+    return res.status(200).json({ status: 'success' });
+  }
 }
 
 export default UserController;

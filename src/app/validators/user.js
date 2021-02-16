@@ -58,6 +58,22 @@ class UserValidate {
 
     return next();
   }
+
+  async delete(req, res, next) {
+    const { id } = req.params;
+
+    const user = await ModelUser.findByPk(id);
+
+    if (!user) {
+      return res.status(400).json({ error: 'User not found!' });
+    }
+
+    if (req.userId === user.id) {
+      return res.status(400).json({ error: 'Does not have permission!' });
+    }
+
+    return next();
+  }
 }
 
 export default UserValidate;

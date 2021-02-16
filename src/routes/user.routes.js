@@ -22,6 +22,12 @@ routes.post(
 
 routes
   .put('/:id', isAdmin, new UserValidator().update, new UserController().update)
+  .delete(
+    '/:id',
+    isAdmin,
+    new UserValidator().delete,
+    new UserController().delete
+  )
   .post('/avatar', upload.single('avatar'), (req, res) =>
     res.json({ ok: true })
   );
