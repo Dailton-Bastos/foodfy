@@ -21,7 +21,7 @@ routes.post(
 );
 
 routes
-  .put('/', new UserController().update)
+  .put('/:id', isAdmin, new UserValidator().update, new UserController().update)
   .post('/avatar', upload.single('avatar'), (req, res) =>
     res.json({ ok: true })
   );

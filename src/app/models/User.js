@@ -11,6 +11,7 @@ class User extends Model {
         password_hash: Sequelize.DataTypes.STRING,
         avatar: Sequelize.DataTypes.INTEGER,
         admin: Sequelize.DataTypes.BOOLEAN,
+        active: Sequelize.DataTypes.BOOLEAN,
       },
       {
         sequelize,
