@@ -9,10 +9,16 @@ import UserController from '../app/controllers/UserController';
 import UserValidator from '../app/validators/user';
 
 import authMiddlewares from '../app/middlewares/auth';
-
-routes.post('/', new UserValidator().create, new UserController().create);
+import isAdmin from '../app/middlewares/isAdmin';
 
 routes.use(authMiddlewares);
+
+routes.post(
+  '/',
+  isAdmin,
+  new UserValidator().create,
+  new UserController().create
+);
 
 routes
   .put('/', new UserController().update)
