@@ -1,5 +1,5 @@
 import multer from 'multer';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import { extname, resolve } from 'path';
 
 const uploadFolder = resolve(__dirname, '..', '..', 'temp', 'uploads');
@@ -8,7 +8,7 @@ export default {
   storage: multer.diskStorage({
     destination: uploadFolder,
     filename: (_, file, callback) => {
-      return callback(null, `${uuid()}-${extname(file.originalname)}`);
+      return callback(null, uuid() + extname(file.originalname));
     },
   }),
 
