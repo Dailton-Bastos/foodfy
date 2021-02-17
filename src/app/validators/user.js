@@ -48,6 +48,10 @@ class UserValidate {
 
     const user = await ModelUser.findByPk(id);
 
+    if (!user) {
+      return res.status(400).json({ error: 'User not found!' });
+    }
+
     if (email && email !== user.email) {
       const userExists = await ModelUser.findOne({ where: { email } });
 
