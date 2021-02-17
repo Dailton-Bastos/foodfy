@@ -17,6 +17,7 @@ import isAdmin from '../app/middlewares/isAdmin';
 routes.use(authMiddlewares, isAdmin);
 
 routes
+  .get('/', user.index)
   .post('/', validator.create, user.create)
   .put('/:id', validator.update, user.update)
   .delete('/:id', validator.delete, user.delete)
