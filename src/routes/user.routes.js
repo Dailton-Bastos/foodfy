@@ -11,6 +11,9 @@ const user = new UserController();
 import UserValidator from '../app/validators/user';
 const validator = new UserValidator();
 
+import FileController from '../app/controllers/FileController';
+const file = new FileController();
+
 import authMiddlewares from '../app/middlewares/auth';
 import isAdmin from '../app/middlewares/isAdmin';
 
@@ -21,8 +24,6 @@ routes
   .post('/', validator.create, user.create)
   .put('/:id', validator.update, user.update)
   .delete('/:id', validator.delete, user.delete)
-  .post('/avatar', upload.single('avatar'), (req, res) =>
-    res.json({ ok: true })
-  );
+  .post('/avatar', upload.single('avatar'), file.create);
 
 export default routes;

@@ -9,7 +9,6 @@ class User extends Model {
         email: Sequelize.DataTypes.STRING,
         password: Sequelize.DataTypes.VIRTUAL,
         password_hash: Sequelize.DataTypes.STRING,
-        avatar: Sequelize.DataTypes.INTEGER,
         admin: Sequelize.DataTypes.BOOLEAN,
         active: Sequelize.DataTypes.BOOLEAN,
       },
@@ -31,7 +30,7 @@ class User extends Model {
     this.belongsTo(models.File, {
       targetKey: 'id',
       foreignKey: 'avatar',
-      as: 'avatar',
+      as: 'user_avatar',
     });
   }
 
