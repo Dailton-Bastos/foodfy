@@ -23,6 +23,7 @@ routes
   .get('/', user.index)
   .post('/', validator.create, user.create)
   .put('/:id', validator.update, user.update)
+  .get('/:id', validator.show, user.show)
   .delete('/:id', validator.delete, user.delete)
   .post('/avatar', upload.single('avatar'), file.create);
 

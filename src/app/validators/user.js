@@ -63,6 +63,18 @@ class UserValidate {
     return next();
   }
 
+  async show(req, res, next) {
+    const { id } = req.params;
+
+    const user = await ModelUser.findByPk(id);
+
+    if (!user) {
+      return res.status(400).json({ error: 'User not found!' });
+    }
+
+    return next();
+  }
+
   async delete(req, res, next) {
     const { id } = req.params;
 

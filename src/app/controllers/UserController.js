@@ -61,6 +61,22 @@ class UserController {
     });
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+    const user = await ModelUser.findByPk(id, {
+      attributes: ['id', 'name', 'email', 'admin', 'active', 'createdAt'],
+      include: [
+        {
+          model: ModelFile,
+          as: 'user_avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
+    });
+
+    return res.json(user);
+  }
+
   async delete(req, res) {
     const { id } = req.params;
 
