@@ -11,6 +11,25 @@ class ProfileController {
       createdAt,
     });
   }
+
+  async update(req, res) {
+    const { name, email, password, avatar } = req.body;
+
+    const user = await ModelUser.findByPk(req.userId);
+
+    await user.update({
+      name,
+      email,
+      password,
+      avatar,
+    });
+
+    return res.json({
+      name,
+      email,
+      avatar,
+    });
+  }
 }
 
 export default ProfileController;
