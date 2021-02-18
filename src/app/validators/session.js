@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import ModelUser from '../models/User';
+import ModelFile from '../models/File';
 
 class SessionValidate {
   async create(req, res, next) {
@@ -15,7 +16,16 @@ class SessionValidate {
 
     const { email, password } = req.body;
 
-    const user = await ModelUser.findOne({ where: { email } });
+    const user = await ModelUser.findOne({
+      where: { email },
+      include: [
+        {
+          model: ModelFile,
+          as: 'user_avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
+    });
 
     if (!user) {
       return res.status(401).json({ error: 'User not found.' });
