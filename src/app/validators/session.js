@@ -25,6 +25,10 @@ class SessionValidate {
       return res.status(401).json({ error: 'Password does not match.' });
     }
 
+    if (!user.active) {
+      return res.status(401).json({ error: 'Account inactive.' });
+    }
+
     req.user = user;
 
     return next();
