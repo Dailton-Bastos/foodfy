@@ -1,13 +1,21 @@
 import { randomBytes } from 'crypto';
 
 import ModelUser from '../models/User';
+import ModelFile from '../models/File';
 
 class UserController {
   async index(req, res) {
     const { page = 1 } = req.query;
 
     const users = await ModelUser.findAll({
-      attributes: ['id', 'name', 'email', 'avatar', 'admin', 'active'],
+      attributes: ['id', 'name', 'email', 'admin', 'active'],
+      include: [
+        {
+          model: ModelFile,
+          as: 'user_avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
       order: [['created_at', 'DESC']],
       limit: 6,
       offset: (page - 1) * 6,

@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import express from 'express';
 import routes from './routes';
+import { resolve } from 'path';
 
 import './database/connection';
 
@@ -15,6 +16,10 @@ class App {
 
   middlewares() {
     this.server.use(express.json());
+    this.server.use(
+      '/files',
+      express.static(resolve(__dirname, '..', 'temp', 'uploads'))
+    );
   }
 
   routes() {

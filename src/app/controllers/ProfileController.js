@@ -1,15 +1,20 @@
 import ModelUser from '../models/User';
+import ModelFile from '../models/File';
 
 class ProfileController {
   async index(req, res) {
-    const { id, name, email, createdAt } = await ModelUser.findByPk(req.userId);
-
-    return res.json({
-      id,
-      name,
-      email,
-      createdAt,
+    const user = await ModelUser.findByPk(req.userId, {
+      attributes: ['id', 'name', 'email', 'createdAt'],
+      include: [
+        {
+          model: ModelFile,
+          as: 'user_avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
     });
+
+    return res.json(user);
   }
 
   async update(req, res) {
