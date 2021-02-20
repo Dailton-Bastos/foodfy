@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{> head }}
+
+<body>
+  <table align="center">
+    {{!-- Header --}}
+    {{> header }}
+
+    {{!-- Main --}}
+    {{{ body }}}
+
+    {{!-- No replay --}}
+    <tr>
+      <td>
+        <table align="center" id="table__noreplay">
+          <tr>
+            <td>Por favor, não responda este e-mail. Ele foi gerado automaticamente.</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    {{!-- Footer --}}
+    {{> footer }}
+
+  </table>
+</body>
+
+</html>

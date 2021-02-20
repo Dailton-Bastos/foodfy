@@ -35,9 +35,13 @@ class UserController {
     });
 
     await Mail.sendMail({
-      to: `${name} <${email}>`,
+      to: `${name} < ${email} >`,
       subject: 'Senha de acesso.',
-      html: `<p>Olá, ${name}, sua senha de acesso: <strong>${password}</strong></p>`,
+      template: 'send_password',
+      context: {
+        user: name,
+        password,
+      },
     });
 
     return res.json({
