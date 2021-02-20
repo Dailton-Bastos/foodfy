@@ -3,6 +3,8 @@ import { randomBytes } from 'crypto';
 import ModelUser from '../models/User';
 import ModelFile from '../models/File';
 
+import Mail from '../../libs/Mail';
+
 class UserController {
   async index(req, res) {
     const { page = 1 } = req.query;
@@ -27,11 +29,15 @@ class UserController {
   async create(req, res) {
     const password = randomBytes(5).toString('hex');
 
-    console.log('User password', password);
-
     const { id, name, email, active } = await ModelUser.create({
       ...req.body,
       password,
+    });
+
+    await Mail.sendMail({
+      to: `${name} <${email}>`,
+      subject: 'Senha de acesso.',
+      html: `<p>Olá, ${name}, sua senha de acesso: <strong>${password}</strong></p>`,
     });
 
     return res.json({
