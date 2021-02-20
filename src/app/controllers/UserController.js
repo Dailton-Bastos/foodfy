@@ -3,7 +3,9 @@ import { randomBytes } from 'crypto';
 import ModelUser from '../models/User';
 import ModelFile from '../models/File';
 
-import Mail from '../../libs/Mail';
+import SendPasswordMail from '../jobs/SendPasswordMail';
+
+import Queue from '../../libs/Queue';
 
 class UserController {
   async index(req, res) {
@@ -34,15 +36,8 @@ class UserController {
       password,
     });
 
-    await Mail.sendMail({
-      to: `${name} < ${email} >`,
-      subject: 'Senha de acesso.',
-      template: 'send_password',
-      context: {
-        user: name,
-        password,
-      },
-    });
+    const data = { name, email, password };
+    await Queue.add(SendPasswordMail.key, data);
 
     return res.json({
       id,
