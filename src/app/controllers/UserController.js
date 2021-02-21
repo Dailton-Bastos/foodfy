@@ -2,6 +2,7 @@ import { randomBytes } from 'crypto';
 
 import ModelUser from '../models/User';
 import ModelFile from '../models/File';
+import Notification from '../schemas/Notification';
 
 import SendPasswordMail from '../jobs/SendPasswordMail';
 
@@ -38,6 +39,11 @@ class UserController {
 
     const data = { name, email, password };
     await Queue.add(SendPasswordMail.key, data);
+
+    await Notification.create({
+      content: `Boas-vindas ${name}, seu cadastrado foi realizado com sucesso, por favor altere sua senha.`,
+      user: id,
+    });
 
     return res.json({
       id,
