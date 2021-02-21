@@ -18,6 +18,7 @@ routes.use(authMiddlewares);
 routes
   .get('/', profile.index)
   .put('/', validator.update, profile.update)
-  .get('/notifications', notification.index);
+  .get('/notifications', notification.index)
+  .put('/notifications/:id', notification.update);
 
 export default routes;

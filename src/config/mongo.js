@@ -2,7 +2,7 @@ export default {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
-  useFindAndModify: true,
+  useFindAndModify: false,
   autoIndex: false,
   poolSize: 10,
   serverSelectionTimeoutMS: 5000,
