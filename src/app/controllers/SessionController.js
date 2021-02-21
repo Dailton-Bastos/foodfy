@@ -4,6 +4,7 @@ import { addMinutes } from 'date-fns';
 import authConfig from '../../config/auth';
 
 import ModelUser from '../models/User';
+import Notification from '../schemas/Notification';
 
 import SendResetPasswordMail from '../jobs/SendResetPasswordMail';
 
@@ -57,6 +58,11 @@ class SessionController {
       password,
       reset_token: null,
       reset_token_expires: null,
+    });
+
+    await Notification.create({
+      content: `Olá ${name}, sua nova senha foi criada com sucesso.`,
+      user: id,
     });
 
     return res.json({
