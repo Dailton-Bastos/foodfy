@@ -10,6 +10,7 @@ const validator = new SessionValidator();
 
 routes
   .post('/sessions', validator.create, session.create)
-  .post('/forgot-password', validator.forgotPassword, session.forgotPassword);
+  .post('/forgot-password', validator.forgotPassword, session.forgotPassword)
+  .put('/reset-password', validator.resetPassword, session.resetPassword);
 
 export default routes;

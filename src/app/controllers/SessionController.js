@@ -47,6 +47,25 @@ class SessionController {
 
     return res.json({ success: 'Check user email.' });
   }
+
+  async resetPassword(req, res) {
+    const { email, password } = req.body;
+
+    const user = await ModelUser.findOne({ where: { email } });
+
+    const { id, name, active } = await user.update({
+      password,
+      reset_token: null,
+      reset_token_expires: null,
+    });
+
+    return res.json({
+      id,
+      name,
+      email,
+      active,
+    });
+  }
 }
 
 export default SessionController;

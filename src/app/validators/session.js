@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { isAfter } from 'date-fns';
 
 import ModelUser from '../models/User';
 import ModelFile from '../models/File';
@@ -69,6 +70,48 @@ class SessionValidate {
     }
 
     req.user = user;
+
+    return next();
+  }
+
+  async resetPassword(req, res, next) {
+    const schema = Yup.object().shape({
+      email: Yup.string().email().required(),
+      password: Yup.string().required().min(6),
+      confirmPassword: Yup.string().when('password', (password, field) => {
+        return password ? field.required().oneOf([Yup.ref('password')]) : field;
+      }),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails.' });
+    }
+
+    const { token } = req.query;
+    const { email } = req.body;
+
+    if (!token) {
+      return res.status(401).json({ error: 'Token not provided.' });
+    }
+
+    const user = await ModelUser.findOne({
+      where: { email },
+      attributes: ['id', 'name', 'email', 'reset_token', 'reset_token_expires'],
+    });
+
+    if (!user) {
+      return res.status(401).json({ error: 'User not found.' });
+    }
+
+    const { reset_token, reset_token_expires } = user;
+
+    if (token !== reset_token) {
+      return res.status(401).json({ error: 'Token invalid.' });
+    }
+
+    if (isAfter(new Date(), reset_token_expires)) {
+      return res.status(401).json({ error: 'Token expired.' });
+    }
 
     return next();
   }
