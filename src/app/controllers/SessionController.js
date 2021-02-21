@@ -17,6 +17,12 @@ class SessionController {
       }),
     });
   }
+
+  async forgotPassword(req, res) {
+    const user = req.user;
+
+    return res.json(user);
+  }
 }
 
 export default SessionController;
