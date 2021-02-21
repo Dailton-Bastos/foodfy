@@ -1,5 +1,9 @@
 import jwt from 'jsonwebtoken';
+import { suid } from 'rand-token';
+import { addMinutes } from 'date-fns';
 import authConfig from '../../config/auth';
+
+import ModelUser from '../models/User';
 
 class SessionController {
   async create(req, res) {
@@ -19,9 +23,19 @@ class SessionController {
   }
 
   async forgotPassword(req, res) {
-    const user = req.user;
+    const { id } = req.user;
 
-    return res.json(user);
+    await ModelUser.update(
+      {
+        reset_token: suid(20),
+        reset_token_expires: addMinutes(new Date(), 60),
+      },
+      {
+        where: { id },
+      }
+    );
+
+    return res.json({ success: 'Check user email.' });
   }
 }
 
